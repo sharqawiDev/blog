@@ -1,0 +1,115 @@
+.post {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 50%;
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(213, 138, 253);
+    padding: 10px 20px;
+    color: white;
+    .likes {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      svg {
+        cursor: pointer;
+      }
+      svg.liked {
+        color: red;
+      }
+    }
+  }
+  &__content {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(213, 138, 253);
+    border-top: none;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  &__add-comment {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    &__header {
+      margin: 0;
+      margin-right: auto;
+      background: rgb(213, 138, 253);
+      color: white;
+      padding: 10px 20px;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+    &__textarea {
+      min-height: 70px;
+      border: 1px solid rgb(213, 138, 253);
+      border-radius: 10px;
+      border-top-left-radius: 0;
+      padding: 10px;
+      resize: none;
+      outline: none;
+      font-size: 1rem;
+    }
+    &__add-btn {
+      width: fit-content;
+      margin-top: 10px;
+      margin-left: auto;
+      background-color: rgb(213, 138, 253);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 30px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      &:hover {
+        background-color: rgb(213, 138, 253, 0.8);
+      }
+    }
+  }
+
+  &__comments {
+    // display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    align-items: start;
+    &__header {
+      margin-right: auto;
+      background: rgb(213, 138, 253);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+    }
+    //choose the fist child of the comments
+
+    &__comment {
+      display: flex;
+      flex-direction: column;
+      text-align: start;
+      padding: 10px;
+      border: 1px solid rgb(213, 138, 253);
+      border-radius: 6px;
+      margin-bottom: 20px;
+      .author {
+        width: fit-content;
+        font-size: 15px;
+        display: inline-block;
+        font-weight: bold;
+        padding: 5px 10px;
+        margin-bottom: 10px;
+        border: 1px solid rgb(66, 50, 74, 0.2);
+        border-radius: 6px;
+      }
+    }
+  }
+}

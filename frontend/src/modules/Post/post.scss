@@ -79,10 +79,7 @@
   }
 
   &__comments {
-    // display: flex;
-    flex-direction: column;
     margin-top: 50px;
-    align-items: start;
     &__header {
       margin-right: auto;
       background: rgb(213, 138, 253);
@@ -90,7 +87,6 @@
       padding: 10px 20px;
       border-radius: 6px;
     }
-    //choose the fist child of the comments
 
     &__comment {
       display: flex;

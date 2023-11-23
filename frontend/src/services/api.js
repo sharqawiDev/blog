@@ -1,10 +1,19 @@
 import axios from "axios";
 import { LOGIN_ROUTE, POSTS_ROUTE } from "./routes";
-const api = axios.create({
+export const api = axios.create({
   baseURL: "http://localhost:3000/",
   headers: {
     "Content-Type": "application/json",
   },
+});
+
+// for making the browser remembers the user when they refresh the page
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers["Authorization"] = `Bearer ${token}`;
+  }
+  return config;
 });
 
 // navigate to login if token is not valid
@@ -18,21 +27,36 @@ api.interceptors.response.use(
   }
 );
 
-const login = async (email, password) => {
-  const data = JSON.stringify({ email, password });
+export const login = async (email, password) => {
+  const data = { email, password };
   return (await api.post(LOGIN_ROUTE, data)).data;
 };
 
-export const getPosts = () => {};
+export const logout = () => {
+  localStorage.removeItem("token");
+  api.defaults.headers.common["Authorization"] = undefined;
+  window.location.href = LOGIN_ROUTE;
+};
+
+export const getPosts = async () => {
+  return await api.get(POSTS_ROUTE);
+};
 
 export const submitPost = async ({ title, content }) => {
-  const data = JSON.stringify({ title, content });
+  const data = { title, content };
   return await api.post(POSTS_ROUTE, data);
 };
 
-export const submitComment = async ({ content, postId }) => {
-  const data = JSON.stringify({ content });
-  return await api.post(`${POSTS_ROUTE}/${postId}/comments`, data);
+export const editPost = async ({ title, content, postId }) => {
+  const data = { title, content };
+  return (await api.put(`${POSTS_ROUTE}/${postId}`, data)).data;
 };
 
-export { api, login };
+export const deletePost = async (postId) => {
+  return (await api.delete(`${POSTS_ROUTE}/${postId}`)).data;
+};
+
+export const submitComment = async ({ content, postId }) => {
+  const data = { content };
+  return api.post(`${POSTS_ROUTE}/${postId}/comments`, data);
+};

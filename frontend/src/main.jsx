@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   Switch,
   Route,
@@ -6,20 +7,23 @@ import {
   Redirect,
 } from "react-router-dom";
 import { PostCard } from "./components";
-import { posts } from "./data";
-import { FaPlus, FaArrowCircleLeft } from "react-icons/fa";
+import { FaPlus, FaArrowCircleLeft, FaSignOutAlt } from "react-icons/fa";
 import { PostView, PostCreate, Login } from "./modules";
 import { LOGIN_ROUTE } from "./services/routes";
+import { logout, getPosts } from "./services/api";
 import "./main.scss";
 function App() {
+  const [posts, setPosts] = useState([]);
   const history = useHistory();
   const location = useLocation();
-  const isAuthenticated = localStorage.getItem("token") ? true : false;
+  const isAuthenticated = localStorage.getItem("token");
   const handleAddPost = () => {
     history.push("/add");
   };
-  const handlePostView = (id) => {
-    history.push(`/post/${id}`);
+  const handlePostView = (post) => {
+    history.push(`/post/${post.id}`, {
+      post,
+    });
   };
   const getTitle = () => {
     const path = location.pathname;
@@ -34,6 +38,19 @@ function App() {
   const goBack = () => {
     history.goBack();
   };
+  const getUsersPosts = async () => {
+    try {
+      const posts = (await getPosts()).data;
+      setPosts(posts);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (isAuthenticated) {
+      getUsersPosts();
+    }
+  }, [history.location.pathname, isAuthenticated]);
   return (
     <main>
       <header className="app-header">
@@ -47,24 +64,26 @@ function App() {
           style={{ width: "50px", height: "50px" }}
         />
         <h3 className="app-header__text">{getTitle()}</h3>
+        {isAuthenticated && (
+          <FaSignOutAlt className="logout-btn" onClick={logout} />
+        )}
       </header>
       <Switch>
-        <Route path="/" exact>
-          <PostCardsContainer onClick={handlePostView} />
+        <PrivateRoute path="/" exact isAuthenticated={isAuthenticated}>
+          <PostCardsContainer onClick={handlePostView} posts={posts} />
           <button className="add-post-btn" onClick={handleAddPost}>
             <FaPlus />
           </button>
-        </Route>
+        </PrivateRoute>
         <Route path="/login">
           <Login />
         </Route>
-        <Route path="/post/:id">
+        <PrivateRoute path="/post/:id" isAuthenticated={isAuthenticated}>
           <PostView />
-        </Route>
-        <Route path="/add">
+        </PrivateRoute>
+        <PrivateRoute path="/add" isAuthenticated={isAuthenticated}>
           <PostCreate />
-        </Route>
-
+        </PrivateRoute>
         <Route path="*">
           <h1>404</h1>
         </Route>
@@ -73,23 +92,27 @@ function App() {
   );
 }
 
-const PostCardsContainer = ({ onClick }) => {
+const PostCardsContainer = ({ onClick, posts }) => {
   return (
     <div className="post-cards-container">
-      {posts.map((post) => (
-        <PostCard key={post.id} post={post} onClick={onClick} />
-      ))}
+      {posts?.length ? (
+        posts.map((post) => (
+          <PostCard key={post.id} post={post} onClick={onClick} />
+        ))
+      ) : (
+        <h2>No posts found, add a new one!</h2>
+      )}
     </div>
   );
 };
 
-function PrivateRoute({ component: Component, isAuthenticated, ...rest }) {
+function PrivateRoute({ children, isAuthenticated, ...rest }) {
   return (
     <Route
       {...rest}
       render={(props) =>
         isAuthenticated ? (
-          <Component {...props} />
+          children
         ) : (
           <Redirect
             to={{ pathname: LOGIN_ROUTE, state: { from: props.location } }}

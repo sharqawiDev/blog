@@ -1,19 +1,45 @@
-import React from "react";
-import { submitPost } from "../../services/api";
+import React, { useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
+import { submitPost, editPost } from "../../services/api";
 import "./post.scss";
 const PostCreate = () => {
   const [title, setTitle] = React.useState("");
   const [content, setContent] = React.useState("");
   const [draft, setDraft] = React.useState(false);
+  const history = useHistory();
+  const location = useLocation();
   const getBtnText = () => {
-    return draft ? "Save as Draft" : "Add Post";
+    return draft ? "Edit Post" : "Add Post";
   };
-  const handleSubmit = () => {
-    submitPost({ title, content });
+  const handleSubmit = async () => {
+    try {
+      await submitPost({ title, content });
+      history.push("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
+  const handleEdit = async () => {
+    try {
+      const { post } = location.state;
+      await editPost({ title, content, postId: post.id });
+      history.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (location.state) {
+      const { post } = location.state;
+      console.log(post);
+      setTitle(post.title);
+      setContent(post.content);
+      setDraft(true);
+    }
+  }, []);
   return (
-    <div className="post-create-create">
+    <div className="post-create">
       <div className="post-create__header">
         <input
           className="post-create__header__title"
@@ -37,15 +63,11 @@ const PostCreate = () => {
         />
       </div>
       <div className="post-create__add-post">
-        <p className="draft-text">Draft</p>
-        <label className="switch" onChange={() => setDraft(!draft)}>
-          <input type="checkbox" value={draft} />
-          <span className="slider round"></span>
-        </label>
         <button
           className="post-create__add-post__add-btn"
           type="submit"
-          onClick={handleSubmit}
+          onClick={() => (draft ? handleEdit() : handleSubmit())}
+          disabled={!title || !content}
         >
           {getBtnText()}
         </button>

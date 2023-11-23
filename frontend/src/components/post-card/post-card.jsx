@@ -12,11 +12,11 @@ const PostCard = ({ post, onClick }) => {
           <FaThumbsUp className="like" />
           <span>{14}</span>
           <FaThumbsDown className="dislike" />
-          <span>{post.likes}</span>
+          <span>{2}</span>
         </div>
         <button
           className="post-card__footer__view-btn"
-          onClick={() => onClick(post.id)}
+          onClick={() => onClick(post)}
         >
           View
         </button>

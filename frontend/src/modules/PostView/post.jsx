@@ -1,20 +1,24 @@
 import React from "react";
-import { FaHeart } from "react-icons/fa";
+import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import "./post.scss";
-const PostView = ({ post }) => {
-  const { id, title, content, likes, comments } = post;
+import { useLocation } from "react-router-dom";
+const PostView = () => {
+  const location = useLocation();
+
   const ownPost = true;
   const liked = true;
   return (
     <div className="post-view-view">
       <div className="post-view__header">
-        <h2 className="post-view__title">{title}</h2>
+        <h2 className="post-view__title">{"title"}</h2>
         <div className="likes">
-          <FaHeart className={`${liked ? "liked" : ""}`} />
-          <span>{likes}</span>
+          <FaThumbsUp className="like" />
+          <span>{14}</span>
+          <FaThumbsDown className="dislike" />
+          <span>{12}</span>
         </div>
       </div>
-      <p className="post-view__content">{content}</p>
+      <p className="post-view__content">{"content"}</p>
       <div className="post-view__add-comment">
         <h3 className="post-view__add-comment__header">Comment</h3>
         <textarea
@@ -25,8 +29,8 @@ const PostView = ({ post }) => {
       </div>
       <div className="post-view__comments">
         <h3 className="post-view__comments__header">Users Comments</h3>
-        {comments.map((comment) => (
-          <div key={id} className="post-view__comments__comment">
+        {[].map((comment) => (
+          <div key={1} className="post-view__comments__comment">
             <p className="author">Salman</p>
             <p className="comment">{comment}</p>
           </div>

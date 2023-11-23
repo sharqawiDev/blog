@@ -1,8 +1,8 @@
 import React from "react";
-import { FaHeart } from "react-icons/fa";
+import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import "./post-card.scss";
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, onClick }) => {
   const liked = true;
   return (
     <div className="post-card">
@@ -10,10 +10,17 @@ const PostCard = ({ post }) => {
       <p>{post.content}</p>
       <div className="post-card__footer">
         <div className="post-card__footer__likes">
-          <FaHeart className={`${liked ? "liked" : ""}`} />
+          <FaThumbsUp className="like" />
+          <span>{14}</span>
+          <FaThumbsDown className="dislike" />
           <span>{post.likes}</span>
         </div>
-        <button className="post-card__footer__view-btn">View</button>
+        <button
+          className="post-card__footer__view-btn"
+          onClick={() => onClick(1)}
+        >
+          View
+        </button>
       </div>
     </div>
   );

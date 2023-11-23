@@ -2,17 +2,41 @@
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0 2rem;
   text-align: center;
 }
 main {
   position: relative;
+  .app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #633cff;
+    height: 60px;
+    .back-btn {
+      position: absolute;
+      left: 20px;
+      cursor: pointer;
+    }
+    &__text {
+      cursor: pointer;
+    }
+  }
   .post-cards-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    margin-top: 100px;
+    gap: 20px;
   }
-
   .add-post-btn {
     position: fixed;
     bottom: 20px;

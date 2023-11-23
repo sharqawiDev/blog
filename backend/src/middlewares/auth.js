@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = process.env;
 
 const authenticateToken = (req, res, next) => {
   const token = req.headers.authorization;
@@ -9,7 +10,7 @@ const authenticateToken = (req, res, next) => {
       .json({ message: "Unauthorized. Token not provided." });
   }
 
-  jwt.verify(token, "your-secret-key", (err, user) => {
+  jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) {
       return res.status(401).json({ message: "Unauthorized. Invalid token." });
     }

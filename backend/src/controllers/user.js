@@ -1,14 +1,14 @@
 const db = require("../db");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 module.exports = (app) => {
   app.post("/register", async (req, res) => {
     try {
       const { firstName, lastName, email, password } = req.body;
-
       // Hash the password before saving it
       const hashedPassword = await bcrypt.hash(password, 10);
-
+      console.log(firstName, lastName, email, hashedPassword);
       const user = await db.models.User.create({
         firstName,
         lastName,

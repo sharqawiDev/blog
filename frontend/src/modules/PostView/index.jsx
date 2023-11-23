@@ -1,12 +1,11 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import "./post.scss";
-import { useLocation } from "react-router-dom";
 const PostView = () => {
   const location = useLocation();
+  const id = location.pathname.split("/")[2];
 
-  const ownPost = true;
-  const liked = true;
   return (
     <div className="post-view-view">
       <div className="post-view__header">
@@ -29,7 +28,7 @@ const PostView = () => {
       </div>
       <div className="post-view__comments">
         <h3 className="post-view__comments__header">Users Comments</h3>
-        {[].map((comment) => (
+        {["this is a comment"].map((comment) => (
           <div key={1} className="post-view__comments__comment">
             <p className="author">Salman</p>
             <p className="comment">{comment}</p>

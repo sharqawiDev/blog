@@ -7,9 +7,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      # POSTGRES_DB: employees
-      POSTGRES_USER: employees
-      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: bootcamp
+      POSTGRES_USER: bootcamp
+      POSTGRES_PASSWORD: root
     volumes:
       - db_data:/var/lib/postgresql/data
 volumes:

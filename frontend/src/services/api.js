@@ -1,0 +1,38 @@
+import axios from "axios";
+import { LOGIN_ROUTE, POSTS_ROUTE } from "./routes";
+const api = axios.create({
+  baseURL: "http://localhost:3000/",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+// navigate to login if token is not valid
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response.status === 401) {
+      window.location.href = LOGIN_ROUTE;
+    }
+    return Promise.reject(error);
+  }
+);
+
+const login = async (email, password) => {
+  const data = JSON.stringify({ email, password });
+  return (await api.post(LOGIN_ROUTE, data)).data;
+};
+
+export const getPosts = () => {};
+
+export const submitPost = async ({ title, content }) => {
+  const data = JSON.stringify({ title, content });
+  return await api.post(POSTS_ROUTE, data);
+};
+
+export const submitComment = async ({ content, postId }) => {
+  const data = JSON.stringify({ content });
+  return await api.post(`${POSTS_ROUTE}/${postId}/comments`, data);
+};
+
+export { api, login };

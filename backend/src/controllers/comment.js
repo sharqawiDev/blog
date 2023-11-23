@@ -1,5 +1,5 @@
 const db = require("../db");
-const authenticateToken = require("./path-to-your-middleware");
+const authenticateToken = require("../middlewares/auth");
 
 module.exports = (app) => {
   app.get("/posts/:postId/comments", authenticateToken, async (req, res) => {

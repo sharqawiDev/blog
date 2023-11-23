@@ -3,7 +3,6 @@ import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import "./post-card.scss";
 
 const PostCard = ({ post, onClick }) => {
-  const liked = true;
   return (
     <div className="post-card">
       <h2>{post.title}</h2>
@@ -17,7 +16,7 @@ const PostCard = ({ post, onClick }) => {
         </div>
         <button
           className="post-card__footer__view-btn"
-          onClick={() => onClick(1)}
+          onClick={() => onClick(post.id)}
         >
           View
         </button>

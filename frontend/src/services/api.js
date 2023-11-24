@@ -1,7 +1,7 @@
 import axios from "axios";
 import { LOGIN_ROUTE, REGISTER_ROUTE, POSTS_ROUTE } from "./routes";
 export const api = axios.create({
-  baseURL: "http://backend.sharqawi.dev/",
+  baseURL: "https://backend.sharqawi.dev/",
   headers: {
     "Content-Type": "application/json",
   },

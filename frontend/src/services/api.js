@@ -1,7 +1,7 @@
 import axios from "axios";
-import { LOGIN_ROUTE, POSTS_ROUTE } from "./routes";
+import { LOGIN_ROUTE, POSTS_ROUTE, REGISTER_ROUTE } from "./routes";
 export const api = axios.create({
-  baseURL: "http://localhost:3000/",
+  baseURL: "http://backend.sharqawi.dev/",
   headers: {
     "Content-Type": "application/json",
   },
@@ -31,6 +31,16 @@ export const login = async (email, password) => {
   const data = { email, password };
   return (await api.post(LOGIN_ROUTE, data)).data;
 };
+
+export const register = async () => {
+  const data = {
+    firstName: "Ahmed",
+    lastName: "Salem",
+    email: "bot@gmail.com",
+    password: "password"
+  }
+  return (await api.post(REGISTER_ROUTE, data)).data;
+}
 
 export const logout = () => {
   localStorage.removeItem("token");

@@ -8,8 +8,13 @@ import {
 } from "react-router-dom";
 import { PostCard } from "./components";
 import { FaPlus, FaArrowCircleLeft, FaSignOutAlt } from "react-icons/fa";
-import { PostView, PostCreate, Login } from "./modules";
-import { LOGIN_ROUTE } from "./services/routes";
+import { PostView, PostCreate, Login, Register } from "./modules";
+import {
+  ADD_POST_ROUTE,
+  LOGIN_ROUTE,
+  POSTS_ROUTE,
+  REGISTER_ROUTE,
+} from "./services/routes";
 import { logout, getPosts } from "./services/api";
 import "./main.scss";
 function App() {
@@ -18,19 +23,19 @@ function App() {
   const location = useLocation();
   const isAuthenticated = localStorage.getItem("token");
   const handleAddPost = () => {
-    history.push("/add");
+    history.push(ADD_POST_ROUTE);
   };
   const handlePostView = (post) => {
-    history.push(`/post/${post.id}`, {
+    history.push(`${POSTS_ROUTE}/${post.id}`, {
       post,
     });
   };
   const getTitle = () => {
     const path = location.pathname;
-    if (path === "/add") {
+    if (path === ADD_POST_ROUTE) {
       return "Add Post";
     }
-    if (path.includes("/post/")) {
+    if (path.includes(POSTS_ROUTE)) {
       return "Post";
     }
     return "Home";
@@ -75,13 +80,19 @@ function App() {
             <FaPlus />
           </button>
         </PrivateRoute>
-        <Route path="/login">
+        <Route path={LOGIN_ROUTE}>
           <Login />
         </Route>
-        <PrivateRoute path="/post/:id" isAuthenticated={isAuthenticated}>
+        <Route path={REGISTER_ROUTE}>
+          <Register />
+        </Route>
+        <PrivateRoute
+          path={`${POSTS_ROUTE}/:id`}
+          isAuthenticated={isAuthenticated}
+        >
           <PostView />
         </PrivateRoute>
-        <PrivateRoute path="/add" isAuthenticated={isAuthenticated}>
+        <PrivateRoute path={ADD_POST_ROUTE} isAuthenticated={isAuthenticated}>
           <PostCreate />
         </PrivateRoute>
         <Route path="*">

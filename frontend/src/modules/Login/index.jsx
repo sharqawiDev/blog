@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useHistory, Link } from "react-router-dom";
 import { api, login } from "../../services/api";
 import "./styles.scss";
-import { useHistory } from "react-router-dom";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -45,6 +45,10 @@ function Login() {
           Enter
         </button>
       </form>
+      <Link to="/register" className="register-msg">
+        {"Don't have an account? "}
+        <span>Register</span>
+      </Link>
     </div>
   );
 }

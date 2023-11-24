@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LOGIN_ROUTE, POSTS_ROUTE } from "./routes";
+import { LOGIN_ROUTE, REGISTER_ROUTE, POSTS_ROUTE } from "./routes";
 export const api = axios.create({
   baseURL: "http://localhost:3000/",
   headers: {
@@ -31,6 +31,10 @@ export const login = async (email, password) => {
   const data = { email, password };
   return (await api.post(LOGIN_ROUTE, data)).data;
 };
+
+export const register = async (data) => {
+  return (await api.post(REGISTER_ROUTE, data)).data;
+}
 
 export const logout = () => {
   localStorage.removeItem("token");

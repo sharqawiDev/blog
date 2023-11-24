@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
-import { api, login, register } from "../../services/api";
+import { api, login } from "../../services/api";
+import { REGISTER_ROUTE } from "../../services/routes";
 import "./styles.scss";
 function Login() {
   const [email, setEmail] = useState("");
@@ -17,13 +18,6 @@ function Login() {
       console.log(error);
     }
   };
-  const handleRegister = async () => {
-    try {
-      await register();
-    } catch (error) {
-      console.log(error)
-    }
-  }
   const isFormValid = () => {
     return email !== "" && password !== "";
   };
@@ -51,9 +45,8 @@ function Login() {
         <button type="submit" disabled={!isFormValid()}>
           Enter
         </button>
-        <button onClick={handleRegister}>Create new user</button>
       </form>
-      <Link to="/register" className="register-msg">
+      <Link to={REGISTER_ROUTE} className="register-msg">
         {"Don't have an account? "}
         <span>Register</span>
       </Link>

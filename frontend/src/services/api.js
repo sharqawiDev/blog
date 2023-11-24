@@ -20,7 +20,8 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 401) {
+    const shouldRedirectToLogin = (error.response.status === 401 || error.response.status === 403) && window.location.pathname !== LOGIN_ROUTE && window.location.pathname !== REGISTER_ROUTE;
+    if (shouldRedirectToLogin) {
       window.location.href = LOGIN_ROUTE;
     }
     return Promise.reject(error);

@@ -40,4 +40,14 @@
       cursor: not-allowed;
     }
   }
+
+  .register-msg {
+    margin-top: 20px;
+    text-decoration: none;
+    color: #5971c1;
+    span {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  }
 }
